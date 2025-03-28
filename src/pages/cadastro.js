@@ -6,49 +6,95 @@ import {
   TouchableOpacity,
   Text,
   StyleSheet,
+  KeyboardAvoidingView,
+  ScrollView,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Platform
 } from "react-native";
 
 export default class CadastrarUsuario extends Component {
   state = {
+    nome: "",
+    telefone: "",
+    cpf: "",
     email: "",
+    curso: "",
     password: "",
   };
 
   handleCadastro = async () => {
-    const { email, password } = this.state;
-    if (!email || !password) {
+    const { nome, telefone, cpf, email, curso, password } = this.state;
+    if (!nome || !telefone || !cpf || !email || !curso || !password) {
       alert("Preencha todos os campos!");
       return;
     }
-    const user = {
-      email,
-      password,
-    };
-    await AsyncStorage.setItem("user", JSON.stringify(user));
-    alert("Usuário cadastrado com sucesso!");
-    this.props.navigation.navigate("Login");
+
+    const user = { nome, telefone, cpf, email, curso, senha: password };
+
+    try {
+      await AsyncStorage.setItem("user", JSON.stringify(user));
+      alert("Usuário cadastrado com sucesso!");
+      this.props.navigation.navigate("Login");
+    } catch (error) {
+      alert("Erro ao salvar os dados. Tente novamente.");
+      console.error(error);
+    }
   };
 
   render() {
     return (
-      <View style={styles.container}>
-        <TextInput
-          style={styles.input}
-          placeholder="E-mail"
-          value={this.state.email}
-          onChangeText={(email) => this.setState({ email })}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Senha"
-          secureTextEntry={true}
-          value={this.state.password}
-          onChangeText={(password) => this.setState({ password })}
-        />
-        <TouchableOpacity style={styles.button} onPress={this.handleCadastro}>
-          <Text style={styles.buttonText}>Cadastrar</Text>
-        </TouchableOpacity>
-      </View>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"} 
+        style={styles.container}
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <ScrollView contentContainerStyle={styles.scrollContainer}>
+            <View style={styles.div}>
+              <TextInput
+                style={styles.input}
+                placeholder="Nome"
+                value={this.state.nome}
+                onChangeText={(nome) => this.setState({ nome })}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Telefone"
+                value={this.state.telefone}
+                onChangeText={(telefone) => this.setState({ telefone })}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="CPF"
+                value={this.state.cpf}
+                onChangeText={(cpf) => this.setState({ cpf })}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="E-mail"
+                value={this.state.email}
+                onChangeText={(email) => this.setState({ email })}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Curso"
+                value={this.state.curso}
+                onChangeText={(curso) => this.setState({ curso })}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Senha"
+                secureTextEntry={true}
+                value={this.state.password}
+                onChangeText={(password) => this.setState({ password })}
+              />
+              <TouchableOpacity style={styles.button} onPress={this.handleCadastro}>
+                <Text style={styles.buttonText}>Cadastrar</Text>
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -56,24 +102,32 @@ export default class CadastrarUsuario extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
     backgroundColor: "#fff",
+  },
+  scrollContainer: {
+    flexGrow: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  div: {
+    width: "80%",
+    alignItems: "center",
   },
   input: {
     borderWidth: 1,
     borderColor: "#ccc",
     borderRadius: 5,
-    padding: 10,
+    padding: 13,
     marginVertical: 10,
-    width: "80%",
+    width: "100%",
   },
   button: {
     backgroundColor: "#7159c1",
     borderRadius: 10,
     padding: 10,
-    width: "80%",
+    width: "100%",
     alignItems: "center",
+    marginVertical: 15
   },
   buttonText: {
     color: "#fff",

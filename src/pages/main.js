@@ -16,72 +16,72 @@ import {
   ProfileButton,
   ProfileButtonText,
 } from "../styles";
+
 export default class Main extends Component {
   state = {
-    newUser: "",
-    users: [],
+    newPokemon: "",
+    pokemons: [],
     loading: false,
   };
 
   async componentDidMount() {
-    const users = await AsyncStorage.getItem("users");
-    if (users) {
-      this.setState({ users: JSON.parse(users) });
+    const pokemons = await AsyncStorage.getItem("pokemons");
+    if (pokemons) {
+      this.setState({ pokemons: JSON.parse(pokemons) });
     }
   }
 
   componentDidUpdate(_, prevState) {
-    const { users } = this.state;
-    if (prevState.users !== users) {
-      AsyncStorage.setItem("users", JSON.stringify(users));
+    const { pokemons } = this.state;
+    if (prevState.pokemons !== pokemons) {
+      AsyncStorage.setItem("pokemons", JSON.stringify(pokemons));
     }
   }
 
-  handleAddUser = async () => {
+  handleAddPokemon = async () => {
     try {
-      const { users, newUser } = this.state;
+      const { pokemons, newPokemon } = this.state;
       this.setState({ loading: true });
-      const response = await api.get(`/users/${newUser}`);
-      if (users.find((user) => user.login === response.data.login)) {
-        alert("Usuário já adicionado!");
+      const response = await api.get(`/pokemon/${newPokemon.toLowerCase()}`);
+      if (pokemons.find((pokemon) => pokemon.id === response.data.id)) {
+        alert("Pokémon já adicionado!");
         this.setState({ loading: false });
         return;
       }
       const data = {
         name: response.data.name,
-        login: response.data.login,
-        bio: response.data.bio,
-        avatar: response.data.avatar_url,
+        id: response.data.id,
+        sprite: response.data.sprites.front_default,
       };
       console.log(data);
 
       this.setState({
-        users: [...users, data],
-        newUser: "",
+        pokemons: [...pokemons, data],
+        newPokemon: "",
         loading: false,
       });
       Keyboard.dismiss();
     } catch (error) {
-      alert("Usuário não encontrado!");
+      alert("Pokémon não encontrado!");
       this.setState({ loading: false });
     }
   };
 
   render() {
-    const { users, newUser, loading } = this.state;
+    const { pokemons, newPokemon, loading } = this.state;
     return (
       <Container>
         <Form>
           <Input
             autoCorrect={false}
             autoCapitalize="none"
-            placeholder="Adicionar usuário"
-            value={newUser}
-            onChangeText={(text) => this.setState({ newUser: text })}
+            placeholder="Adicionar Pokémon"
+            value={newPokemon}
+            onChangeText={(text) => this.setState({ newPokemon: text })}
             returnKeyType="send"
-            onSubmitEditing={this.handleAddUser}
+            onSubmitEditing={this.handleAddPokemon}
           />
-          <SubmitButton loading={loading} onPress={this.handleAddUser}>
+          <SubmitButton loading={loading} onPress={this.handleAddPokemon}>
             {loading ? (
               <ActivityIndicator color="#fff" />
             ) : (
@@ -91,27 +91,22 @@ export default class Main extends Component {
         </Form>
         <List
           showsVerticalScrollIndicator={false}
-          data={users}
-          keyExtractor={(user) => user.login}
+          data={pokemons}
+          keyExtractor={(pokemon) => String(pokemon.id)}
           renderItem={({ item }) => (
             <User>
-              <Avatar source={{ uri: item.avatar }} />
+              <Avatar source={{ uri: item.sprite }} />
               <Name>{item.name}</Name>
-              <Bio>{item.bio}</Bio>
+              <Bio>ID: {item.id}</Bio>
               <ProfileButton
                 onPress={() => {
-                  this.props.navigation.navigate("User", { user: item });
+                  this.setState({
+                    pokemons: this.state.pokemons.filter(
+                      (pokemon) => pokemon.id !== item.id
+                    ),
+                  });
                 }}
-              >
-                <ProfileButtonText>Ver perfil</ProfileButtonText>
-              </ProfileButton>
-              <ProfileButton
-              onPress={() => {
-                this.setState({
-                  users: this.state.users.filter((user) => user.login !== item.login)
-                })
-              }}
-              style={{backgroundColor: "red"}}
+                style={{ backgroundColor: "red" }}
               >
                 <ProfileButtonText>Remover</ProfileButtonText>
               </ProfileButton>
