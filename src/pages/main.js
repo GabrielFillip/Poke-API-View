@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Keyboard, ActivityIndicator } from "react-native";
+import { Keyboard, ActivityIndicator, TouchableOpacity } from "react-native";
 import Icon from "@expo/vector-icons/MaterialIcons";
 import api from "../services/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -15,6 +15,8 @@ import {
   Bio,
   ProfileButton,
   ProfileButtonText,
+  ExtraInfo,
+  Type,
 } from "../styles";
 
 export default class Main extends Component {
@@ -22,6 +24,7 @@ export default class Main extends Component {
     newPokemon: "",
     pokemons: [],
     loading: false,
+    expandedPokemon: null,
   };
 
   async componentDidMount() {
@@ -52,8 +55,9 @@ export default class Main extends Component {
         name: response.data.name,
         id: response.data.id,
         sprite: response.data.sprites.front_default,
+        types: response.data.types.map((t) => t.type.name).join(", "),
+        weight: response.data.weight,
       };
-      console.log(data);
 
       this.setState({
         pokemons: [...pokemons, data],
@@ -67,8 +71,14 @@ export default class Main extends Component {
     }
   };
 
+  toggleExpand = (id) => {
+    this.setState((prevState) => ({
+      expandedPokemon: prevState.expandedPokemon === id ? null : id,
+    }));
+  };
+
   render() {
-    const { pokemons, newPokemon, loading } = this.state;
+    const { pokemons, newPokemon, loading, expandedPokemon } = this.state;
     return (
       <Container>
         <Form>
@@ -94,23 +104,32 @@ export default class Main extends Component {
           data={pokemons}
           keyExtractor={(pokemon) => String(pokemon.id)}
           renderItem={({ item }) => (
-            <User>
-              <Avatar source={{ uri: item.sprite }} />
-              <Name>{item.name}</Name>
-              <Bio>ID: {item.id}</Bio>
-              <ProfileButton
-                onPress={() => {
-                  this.setState({
-                    pokemons: this.state.pokemons.filter(
-                      (pokemon) => pokemon.id !== item.id
-                    ),
-                  });
-                }}
-                style={{ backgroundColor: "red" }}
-              >
-                <ProfileButtonText>Remover</ProfileButtonText>
-              </ProfileButton>
-            </User>
+            <TouchableOpacity onPress={() => this.toggleExpand(item.id)}>
+              <User>
+                <Avatar source={{ uri: item.sprite }} />
+                <Name>{item.name}</Name>
+                <Bio>ID: {item.id}</Bio>
+                <Type> {item.types} </Type>
+                {expandedPokemon === item.id && (
+                  <ExtraInfo>
+                    <Bio>Tipos: {item.types}</Bio>
+                    <Bio>Peso: {item.weight}kg</Bio>
+                  </ExtraInfo>
+                )}
+                <ProfileButton
+                  onPress={() => {
+                    this.setState({
+                      pokemons: this.state.pokemons.filter(
+                        (pokemon) => pokemon.id !== item.id
+                      ),
+                    });
+                  }}
+                  style={{ backgroundColor: "#D63D29" }}
+                >
+                  <ProfileButtonText>Remover</ProfileButtonText>
+                </ProfileButton>
+              </User>
+            </TouchableOpacity>
           )}
         />
       </Container>

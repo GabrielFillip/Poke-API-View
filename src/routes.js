@@ -48,10 +48,10 @@ export default function Routes() {
         component={Main}
         options={({ navigation }) => ({
           headerLeft: null,
-          title: "GitHub VIEWER",
+          title: "Pokedex VIEWER",
           headerTitleAlign: "center",
           headerStyle: {
-            backgroundColor: "#3498db",
+            backgroundColor: "#D63D29",
           },
           headerTintColor: "#fff",
           headerTitleStyle: {
