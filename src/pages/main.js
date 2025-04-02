@@ -15,7 +15,6 @@ import {
   Bio,
   ProfileButton,
   ProfileButtonText,
-  ExtraInfo,
   Type,
 } from "../styles";
 
@@ -24,7 +23,6 @@ export default class Main extends Component {
     newPokemon: "",
     pokemons: [],
     loading: false,
-    expandedPokemon: null,
   };
 
   async componentDidMount() {
@@ -56,7 +54,10 @@ export default class Main extends Component {
         id: response.data.id,
         sprite: response.data.sprites.front_default,
         types: response.data.types.map((t) => t.type.name).join(", "),
-        weight: response.data.weight,
+        hp: response.data.stats.find((s) => s.stat.name === "hp").base_stat,
+        attack: response.data.stats.find((s) => s.stat.name === "attack").base_stat,
+        defense: response.data.stats.find((s) => s.stat.name === "defense").base_stat,
+        speciesUrl: response.data.species.url, // Pegamos o link para buscar a taxa de captura
       };
 
       this.setState({
@@ -66,19 +67,15 @@ export default class Main extends Component {
       });
       Keyboard.dismiss();
     } catch (error) {
-      alert("Pokémon não encontrado!");
+      alert("Pokémon não encontrado! Verifique se o nome está correto.");
       this.setState({ loading: false });
     }
   };
 
-  toggleExpand = (id) => {
-    this.setState((prevState) => ({
-      expandedPokemon: prevState.expandedPokemon === id ? null : id,
-    }));
-  };
-
   render() {
-    const { pokemons, newPokemon, loading, expandedPokemon } = this.state;
+    const { pokemons, newPokemon, loading } = this.state;
+    const { navigation } = this.props;
+
     return (
       <Container>
         <Form>
@@ -104,18 +101,14 @@ export default class Main extends Component {
           data={pokemons}
           keyExtractor={(pokemon) => String(pokemon.id)}
           renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => this.toggleExpand(item.id)}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Pokemon", { pokemon: item })}
+            >
               <User>
                 <Avatar source={{ uri: item.sprite }} />
                 <Name>{item.name}</Name>
                 <Bio>ID: {item.id}</Bio>
-                <Type> {item.types} </Type>
-                {expandedPokemon === item.id && (
-                  <ExtraInfo>
-                    <Bio>Tipos: {item.types}</Bio>
-                    <Bio>Peso: {item.weight}kg</Bio>
-                  </ExtraInfo>
-                )}
+                <Type>{item.types}</Type>
                 <ProfileButton
                   onPress={() => {
                     this.setState({

@@ -77,6 +77,13 @@ export const Bio = styled.Text.attrs({
   text-align: center;
 `;
 
+export const ExtraInfo = styled.View`
+  padding: 10px;
+  background: #f4f4f4;
+  border-radius: 5px;
+  margin-top: 5px;
+`;
+
 export const ProfileButton = styled(RectButton)`
   margin-top: 10px;
   align-self: stretch;
@@ -93,6 +100,7 @@ export const ProfileButtonText = styled.Text`
   font-weight: bold;
   color: #fff;
   text-transform: uppercase;
+  z-index: 2;
 `;
 
 //Estilos para a página User
@@ -102,11 +110,19 @@ export const Header = styled.View`
   justify-content: center;
 `;
 
+export const DetalhesPoke = styled.View`
+  align-items: center;
+  margin: 0 20px 30px;
+  border: 1px;
+  border-radius: 25px;
+  width: 87%;
+  height: 60%;
+`;
+
 export const Avatarperfil = styled.Image`
-  width: 100px;
-  height: 100px;
+  width: 200px;
+  height: 200px;
   border-radius: 50px;
-  background: #eee;
 `;
 
 export const Nameperfil = styled.Text`

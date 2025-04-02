@@ -2,10 +2,10 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import Main from "./pages/main";
 import Login from "./pages/login";
-import User from "./pages/users";
 import CadastrarUsuario from "./pages/cadastro";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Pokemon from "./pages/pokemon";
 
 const Stack = createStackNavigator();
 
@@ -77,13 +77,13 @@ export default function Routes() {
       />
 
       <Stack.Screen
-        name="User"
-        component={User}
+        name="Pokemon"
+        component={Pokemon}
         options={{
-          title: "PERFIL DO USUÁRIO",
+          title: "Detalhes Pokemon",
           headerTitleAlign: "center",
           headerStyle: {
-            backgroundColor: "#7159c1",
+            backgroundColor: "#D63D29",
           },
           headerTitleStyle: {
             color: "#fff",
