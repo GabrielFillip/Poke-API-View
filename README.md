@@ -5,7 +5,7 @@ Seja bem-vindo(a) ao **Pokemon Viewer**, um aplicativo feito em **React Native**
 ## Projeto desenvolvido por:
 
 👨‍💻 Autores
-Desenvolvido por Gabriel Fillip Ribeiro Ferreira e Leonardo Cassio dos Santos
+## Desenvolvido por Gabriel Fillip Ribeiro Ferreira e Leonardo Cassio dos Santos
 
 ---
 
