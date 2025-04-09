@@ -16,6 +16,7 @@ import {
   ProfileButton,
   ProfileButtonText,
   Type,
+  ContainerCards,
 } from "../styles";
 
 export default class Main extends Component {
@@ -44,7 +45,7 @@ export default class Main extends Component {
       const { pokemons, newPokemon } = this.state;
       this.setState({ loading: true });
       const response = await api.get(`/pokemon/${newPokemon.toLowerCase()}`);
-      if (pokemons.find((pokemon) => pokemon.id === response.data.id)) {
+      if (pokemons.some(p => p.name.toLowerCase() === newPokemon.toLowerCase())) {
         alert("Pokémon já adicionado!");
         this.setState({ loading: false });
         return;
@@ -101,28 +102,31 @@ export default class Main extends Component {
           data={pokemons}
           keyExtractor={(pokemon) => String(pokemon.id)}
           renderItem={({ item }) => (
-            <TouchableOpacity
-              onPress={() => navigation.navigate("Pokemon", { pokemon: item })}
-            >
-              <User>
+            <User>
+              <ContainerCards>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("Pokemon", { pokemon: item })}
+              >
                 <Avatar source={{ uri: item.sprite }} />
                 <Name>{item.name}</Name>
                 <Bio>ID: {item.id}</Bio>
                 <Type>{item.types}</Type>
-                <ProfileButton
-                  onPress={() => {
-                    this.setState({
-                      pokemons: this.state.pokemons.filter(
-                        (pokemon) => pokemon.id !== item.id
-                      ),
-                    });
-                  }}
-                  style={{ backgroundColor: "#D63D29" }}
-                >
-                  <ProfileButtonText>Remover</ProfileButtonText>
-                </ProfileButton>
-              </User>
-            </TouchableOpacity>
+              </TouchableOpacity>
+          
+              <ProfileButton
+                onPress={() => {
+                  this.setState({
+                    pokemons: this.state.pokemons.filter(
+                      (pokemon) => pokemon.id !== item.id
+                    ),
+                  });
+                }}
+                style={{ backgroundColor: "#D63D29" }}
+              >
+              <ProfileButtonText>Remover</ProfileButtonText>
+              </ProfileButton>
+              </ContainerCards>
+            </User>
           )}
         />
       </Container>

@@ -20,7 +20,7 @@ export default function Routes() {
           headerLeft: null,
           headerTitleAlign: "center",
           headerStyle: {
-            backgroundColor: "#7159c1",
+            backgroundColor: "#D63D29",
           },
           headerTitleStyle: {
             color: "#fff",
@@ -35,7 +35,7 @@ export default function Routes() {
           title: "CADASTRO DE USUÁRIOS",
           headerTitleAlign: "center",
           headerStyle: {
-            backgroundColor: "#7159c1",
+            backgroundColor: "#D63D29",
           },
           headerTitleStyle: {
             color: "#fff",

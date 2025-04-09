@@ -1,10 +1,36 @@
 import styled from "styled-components/native";
 import { RectButton } from "react-native-gesture-handler";
 
-//Estilos para a página Main
+//
+// 🎯 ESTILOS PARA A TELA MAIN
+//
+
 export const Container = styled.View`
   flex: 1;
   padding: 30px;
+  background-color: #ffffff;
+`;
+
+export const Container2 = styled.View`
+  height: 4%;
+  width: 100%;
+  background-color: #d63d29;
+  margin-bottom: 5%;
+`;
+
+export const Container3 = styled.View`
+  width: 100%;
+  height: 30%;
+  align-items: flex-start;
+  padding-left: 15px;
+`;
+
+export const Container4 = styled.View`
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15px;
 `;
 
 export const Form = styled.View`
@@ -13,6 +39,7 @@ export const Form = styled.View`
   border-bottom-width: 1px;
   border-color: #eee;
 `;
+
 export const Input = styled.TextInput.attrs({
   placeholderTextColor: "#999",
 })`
@@ -27,7 +54,7 @@ export const Input = styled.TextInput.attrs({
 export const SubmitButton = styled(RectButton)`
   justify-content: center;
   align-items: center;
-  background: #D63D29;
+  background: #d63d29;
   border-radius: 4px;
   margin-left: 10px;
   padding: 0 12px;
@@ -39,7 +66,9 @@ export const List = styled.FlatList.attrs({
   margin-top: 20px;
 `;
 
-export const User = styled.View`
+export const User = styled.View``;
+
+export const ContainerCards = styled.View`
   align-items: center;
   margin: 0 20px 30px;
   border: 1px;
@@ -60,6 +89,7 @@ export const Name = styled.Text`
   margin-top: 4px;
   text-align: center;
 `;
+
 export const Type = styled.Text`
   font-size: 14px;
   color: #333;
@@ -87,12 +117,11 @@ export const ExtraInfo = styled.View`
 export const ProfileButton = styled(RectButton)`
   margin-top: 10px;
   align-self: stretch;
-  border-radius: 4px;
+  border-radius: 0 0 20px 20px;
   background: #7159c1;
   justify-content: center;
   align-items: center;
   height: 36px;
-  border-radius: 0 0 20px 20px;
 `;
 
 export const ProfileButtonText = styled.Text`
@@ -103,29 +132,33 @@ export const ProfileButtonText = styled.Text`
   z-index: 2;
 `;
 
-//Estilos para a página User
+//
+// 🎯 ESTILOS PARA A TELA USER / POKEMON
+//
+
 export const Header = styled.View`
   padding-top: 30px;
   align-items: center;
   justify-content: center;
 `;
 
-export const DetalhesPoke = styled.View`
+export const PokemonDetailsBox = styled.View`
   align-items: center;
   margin: 0 20px 30px;
   border: 1px;
   border-radius: 25px;
   width: 87%;
-  height: 60%;
+  height: auto;
+  padding-bottom: 10%;
 `;
 
-export const Avatarperfil = styled.Image`
+export const PokemonImage = styled.Image`
   width: 200px;
   height: 200px;
   border-radius: 50px;
 `;
 
-export const Nameperfil = styled.Text`
+export const PokemonName = styled.Text`
   font-size: 16px;
   color: #333;
   font-weight: bold;
@@ -133,13 +166,17 @@ export const Nameperfil = styled.Text`
   text-align: center;
 `;
 
-export const BioPerfil = styled.Text`
+export const PokemonStatText = styled.Text`
   font-size: 15px;
   line-height: 20px;
   color: #999;
-  margin-top: 5px;
+  margin-top: 10px;
   text-align: center;
 `;
+
+//
+// 🎯 ESTILOS PARA LISTA DE FAVORITOS OU DETALHES
+//
 
 export const Stars = styled.FlatList.attrs({
   showsVerticalScrollIndicator: false,

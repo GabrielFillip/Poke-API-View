@@ -45,7 +45,8 @@ export default class CadastrarUsuario extends Component {
   render() {
     return (
       <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"} 
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0}
         style={styles.container}
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -60,18 +61,24 @@ export default class CadastrarUsuario extends Component {
               <TextInput
                 style={styles.input}
                 placeholder="Telefone"
+                keyboardType="phone-pad"
                 value={this.state.telefone}
                 onChangeText={(telefone) => this.setState({ telefone })}
               />
+
               <TextInput
                 style={styles.input}
                 placeholder="CPF"
+                keyboardType="numeric"
                 value={this.state.cpf}
                 onChangeText={(cpf) => this.setState({ cpf })}
               />
+
               <TextInput
                 style={styles.input}
                 placeholder="E-mail"
+                keyboardType="email-address"
+                autoCapitalize="none"
                 value={this.state.email}
                 onChangeText={(email) => this.setState({ email })}
               />
@@ -85,6 +92,7 @@ export default class CadastrarUsuario extends Component {
                 style={styles.input}
                 placeholder="Senha"
                 secureTextEntry={true}
+                autoCapitalize="none"
                 value={this.state.password}
                 onChangeText={(password) => this.setState({ password })}
               />
@@ -122,7 +130,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   button: {
-    backgroundColor: "#7159c1",
+    backgroundColor: "#D63D29",
     borderRadius: 10,
     padding: 10,
     width: "100%",
